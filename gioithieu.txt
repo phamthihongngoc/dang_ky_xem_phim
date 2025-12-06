@@ -1,0 +1,160 @@
+🎬 GIỚI THIỆU DỰ ÁN: HỆ THỐNG ĐẶT VÉ XEM PHIM (CINEMA BOOKING SYSTEM)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📌 THÔNG TIN CHUNG
+
+Tên dự án: Cinema Booking System - Hệ thống đặt vé xem phim trực tuyến
+Môn học: Lập Trình Mạng (Network Programming)
+Trường: Đại học Đại Nam
+Khoa: Công nghệ thông tin
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 TỔNG QUAN HỆ THỐNG
+
+Hệ thống Cinema Booking là một ứng dụng desktop được xây dựng theo mô hình 
+Client-Server, cho phép người dùng đặt vé xem phim trực tuyến một cách 
+nhanh chóng và tiện lợi. Dự án tập trung vào việc triển khai các khái niệm 
+lập trình mạng, giao tiếp TCP/IP, xử lý đa luồng và quản lý cơ sở dữ liệu.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔧 CÔNG NGHỆ SỬ DỤNG
+
+▸ Ngôn ngữ lập trình: Java SE 17+
+  • Lập trình hướng đối tượng (OOP)
+  • Đa luồng (Multithreading) cho xử lý đồng thời
+  • Socket Programming (TCP/IP) cho giao tiếp mạng
+  • JDBC cho kết nối cơ sở dữ liệu
+
+▸ Giao diện người dùng: Java Swing
+  • JFrame, JPanel cho cấu trúc giao diện
+  • JButton, JTable, JTextField cho tương tác
+  • Event Handling (ActionListener, MouseListener)
+  • Custom UI Components (SeatButton, MoviePanel)
+
+▸ Cơ sở dữ liệu: MySQL 8+
+  • 8 bảng chính: Users, Movies, Shows, Bookings, Combos, Promotions...
+  • Foreign Key, Unique Constraint để đảm bảo tính toàn vẹn
+  • Transaction handling cho xử lý đặt vé an toàn
+
+▸ Thư viện bổ sung:
+  • ZXing: Tạo mã QR cho vé điện tử
+  • Apache Maven: Quản lý dependencies
+  • VLCJ: Phát video trailer phim
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✨ CÁC CHỨC NĂNG CHÍNH
+
+┌─ PHÍA NGƯỜI DÙNG ─────────────────────────────────────────────┐
+│                                                                │
+│ ✓ Đăng ký & Đăng nhập tài khoản                              │
+│ ✓ Xem danh sách phim (đang chiếu, sắp chiếu, đặc biệt)       │
+│ ✓ Xem trailer phim trực tuyến                                 │
+│ ✓ Chọn suất chiếu theo ngày giờ                              │
+│ ✓ Chọn ghế ngồi theo sơ đồ (Standard, VIP, Couple)           │
+│ ✓ Chọn combo bắp nước                                         │
+│ ✓ Áp dụng mã khuyến mãi                                       │
+│ ✓ Thanh toán và nhận vé điện tử với QR Code                  │
+│ ✓ Xem lịch sử đặt vé                                          │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+┌─ PHÍA QUẢN TRỊ VIÊN ──────────────────────────────────────────┐
+│                                                                │
+│ ✓ Dashboard thống kê tổng quan (doanh thu, vé bán, users)    │
+│ ✓ Quản lý phim (Thêm/Sửa/Xóa)                                │
+│ ✓ Quản lý suất chiếu và phòng chiếu                          │
+│ ✓ Quản lý combo bắp nước                                      │
+│ ✓ Quản lý khuyến mãi                                          │
+│ ✓ Xem biểu đồ thống kê chi tiết                              │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🏗️ KIẾN TRÚC HỆ THỐNG
+
+[CLIENT] ←──TCP Socket (Port 12345)──→ [SERVER] ←──JDBC──→ [MySQL DB]
+   ↓                                        ↓                    ↓
+Java Swing GUI                    Multithreading         8 bảng dữ liệu
+Event Handling                    Business Logic          + Constraints
+Socket Client                     Connection Pool         + Transactions
+
+• Client: Giao diện đồ họa, xử lý input, hiển thị kết quả
+• Server: Xử lý logic nghiệp vụ, quản lý kết nối, truy vấn database
+• Database: Lưu trữ dữ liệu phim, vé, user, khuyến mãi...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 ĐIỂM NỔI BẬT
+
+▸ Xử lý đa luồng: Server có thể phục vụ nhiều client cùng lúc
+▸ Đồng bộ hóa dữ liệu: Tránh xung đột khi nhiều người đặt cùng ghế
+▸ Giao diện trực quan: Dễ sử dụng, responsive, có animation
+▸ Bảo mật: Mã hóa mật khẩu, PreparedStatement chống SQL Injection
+▸ QR Code: Vé điện tử hiện đại, dễ quét và xác thực
+▸ Real-time: Cập nhật trạng thái ghế ngay lập tức
+▸ Transaction: Đảm bảo tính toàn vẹn dữ liệu khi đặt vé
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 CẤU TRÚC DỰ ÁN
+
+Movie/
+├── client/              # Module Client
+│   ├── src/main/java/   # Source code giao diện
+│   └── pom.xml          # Dependencies client
+├── server/              # Module Server
+│   ├── src/main/java/   # Source code server logic
+│   └── pom.xml          # Dependencies server
+├── sql.sql              # Script tạo database
+├── *.csv               # Dữ liệu mẫu (combos, promos, rooms, shows)
+└── README.md            # Tài liệu chi tiết
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 HƯỚNG DẪN CHẠY NHANH
+
+1. Cài đặt: JDK 17+, MySQL 8+, Maven
+2. Tạo database: Chạy file sql.sql
+3. Cấu hình: Sửa thông tin DB trong MovieServer.java
+4. Build: mvn clean install
+5. Chạy Server: Run MovieServer.java
+6. Chạy Client: Run MovieClient.java
+7. Đăng nhập: ngoc@gmail.com / 123456
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 KẾT LUẬN
+
+Dự án Cinema Booking System thể hiện sự kết hợp giữa lý thuyết và thực hành 
+trong lập trình mạng. Hệ thống không chỉ minh họa các khái niệm về Socket 
+Programming, Multithreading, Database Management mà còn có thể ứng dụng 
+thực tế cho các rạp chiếu phim hoặc mở rộng cho các hệ thống đặt vé khác.
+
+Thông qua dự án, nhóm đã nắm vững:
+• Thiết kế và triển khai kiến trúc Client-Server
+• Xử lý đồng thời với đa luồng
+• Quản lý kết nối mạng TCP/IP
+• Tích hợp cơ sở dữ liệu với ứng dụng Java
+• Xây dựng giao diện người dùng với Swing
+• Xử lý các vấn đề về đồng bộ hóa và bảo mật
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📧 LIÊN HỆ
+
+Tác giả: Phạm Thị Hồng Ngọc
+Email: pthn2488@gmail.com
+SĐT: 0395 888 778
+Trường: Đại học Đại Nam
+Khoa: Công nghệ thông tin
+
+GitHub: https://github.com/phamthihongngoc/LTM-1604-D08-DangKyXemPhim
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cảm ơn bạn đã quan tâm đến dự án! ❤️

@@ -233,8 +233,6 @@ graph TB
     style DB fill:#1a202c,stroke:#f56565,stroke-width:2px,color:#e2e8f0
 ```
 
-> **💡 Lưu ý:** Sơ đồ Mermaid sẽ được render tự động trên GitHub, GitLab, và các nền tảng hỗ trợ Markdown. Nếu xem trên editor không hỗ trợ, vui lòng xem trên GitHub repository.
-
 ## 1.3. Tính Năng Chính
 
 ### 👤 **Dành Cho Người Dùng**
@@ -697,8 +695,6 @@ CREATE TABLE BookingPromos (
 --
 
 # 🖼️ 3. Hình ảnh chức năng 
-
-> Bạn có thể thay ảnh thật của project vào thư mục `docs/images/` với đúng tên file hoặc sửa đường dẫn bên dưới.
 
 1. **Đăng nhập**
    - Người dùng nhập email + mật khẩu.
