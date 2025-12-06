@@ -79,20 +79,21 @@ Hệ thống **Cinema Booking** là một giải pháp phần mềm hiện đạ
 
 ```mermaid
 graph LR
-    A[👤 Client<br/>Java Swing GUI] -->|1. Yêu cầu đặt vé<br/>TCP Socket| B[🖥️ Server<br/>MovieServer.java]
-    B -->|2. Truy vấn SQL<br/>JDBC| C[(🗄️ MySQL<br/>Database)]
-    C -->|3. Trả về dữ liệu<br/>ResultSet| B
-    B -->|4. Xử lý Logic:<br/>- Kiểm tra ghế trống<br/>- Áp dụng khuyến mãi<br/>- Tính tổng tiền<br/>- Tạo QR Code| B
-    B -->|5. Phản hồi kết quả<br/>Object Stream| A
+    A["👤 Client<br/>Java Swing GUI"] -->|"1. Yêu cầu đặt vé<br/>TCP Socket"| B["🖥️ Server<br/>MovieServer.java"]
+    B -->|"2. Truy vấn SQL<br/>JDBC"| C[("🗄️ MySQL<br/>Database")]
+    C -->|"3. Trả về dữ liệu<br/>ResultSet"| B
+    B -->|"4. Xử lý Logic<br/>• Kiểm tra ghế trống<br/>• Áp dụng khuyến mãi<br/>• Tính tổng tiền<br/>• Tạo QR Code"| B
+    B -->|"5. Phản hồi kết quả<br/>Object Stream"| A
     
-    style A fill:#4A90E2,stroke:#2E5C8A,stroke-width:3px,color:#fff
-    style B fill:#50C878,stroke:#2D7A4A,stroke-width:3px,color:#fff
-    style C fill:#FF6B6B,stroke:#C92A2A,stroke-width:3px,color:#fff
+    style A fill:#2d3748,stroke:#4299e1,stroke-width:2px,color:#e2e8f0
+    style B fill:#2d3748,stroke:#48bb78,stroke-width:2px,color:#e2e8f0
+    style C fill:#2d3748,stroke:#f56565,stroke-width:2px,color:#e2e8f0
 ```
 
 **Chi Tiết Luồng Xử Lý:**
 
 ```mermaid
+%%{init: {'theme':'dark'}}%%
 sequenceDiagram
     participant C as 👤 Client
     participant S as 🖥️ Server
@@ -103,24 +104,24 @@ sequenceDiagram
     C->>+S: 1️⃣ Kết nối Socket (Port 12345)
     S-->>-C: ✅ Kết nối thành công
     
-    C->>+S: 2️⃣ Yêu cầu: Danh sách phim
-    S->>+DB: SELECT * FROM Movies WHERE status='NOW_SHOWING'
+    C->>+S: 2️⃣ Yêu cầu Danh sách phim
+    S->>+DB: SELECT * FROM Movies<br/>WHERE status='NOW_SHOWING'
     DB-->>-S: 📊 Dữ liệu phim
     S-->>-C: 🎥 Trả về danh sách phim
     
     C->>+S: 3️⃣ Chọn phim & suất chiếu
-    S->>+DB: SELECT * FROM Shows WHERE movieId=X
+    S->>+DB: SELECT * FROM Shows<br/>WHERE movieId=X
     DB-->>-S: 📅 Danh sách suất chiếu
     S-->>-C: 🕐 Trả về suất chiếu
     
     C->>+S: 4️⃣ Xem sơ đồ ghế
-    S->>+DB: SELECT seat_row, seat_col FROM Bookings<br/>WHERE showId=Y
+    S->>+DB: SELECT seat_row, seat_col<br/>FROM Bookings WHERE showId=Y
     DB-->>-S: 💺 Ghế đã đặt
     S-->>-C: 🪑 Sơ đồ ghế (Available/Booked)
     
-    C->>+S: 5️⃣ Đặt vé: Ghế A1, A2 + Combo + Mã KM
+    C->>+S: 5️⃣ Đặt vé Ghế A1, A2 + Combo + Mã KM
     
-    rect rgb(240, 248, 255)
+    rect rgb(45, 55, 72)
         Note over S: 🔄 Xử lý nghiệp vụ
         S->>S: Kiểm tra ghế còn trống
         S->>+DB: SELECT ... FOR UPDATE (Lock ghế)
@@ -142,7 +143,7 @@ sequenceDiagram
         DB-->>-S: COMMIT ✅
     end
     
-    S-->>-C: 6️⃣ ✅ Đặt vé thành công<br/>+ QR Code<br/>+ Booking ID<br/>+ Tổng tiền
+    S-->>-C: 6️⃣ ✅ Đặt vé thành công<br/>+ QR Code + Booking ID + Tổng tiền
     
     C->>C: 🎫 Hiển thị vé điện tử
     
@@ -153,43 +154,43 @@ sequenceDiagram
 
 ```mermaid
 graph TB
-    subgraph "🖥️ CLIENT LAYER"
-        A1[LoginFrame<br/>📱 Đăng nhập]
-        A2[RegisterFrame<br/>📝 Đăng ký]
-        A3[MovieClient<br/>🎬 Trang chủ]
-        A4[SeatSelection<br/>💺 Chọn ghế]
-        A5[Payment<br/>💳 Thanh toán]
-        A6[TicketView<br/>🎫 Vé điện tử]
-        A7[AdminFrame<br/>👨‍💼 Quản trị]
+    subgraph CLIENT["🖥️ CLIENT LAYER"]
+        A1["LoginFrame<br/>📱 Đăng nhập"]
+        A2["RegisterFrame<br/>📝 Đăng ký"]
+        A3["MovieClient<br/>🎬 Trang chủ"]
+        A4["SeatSelection<br/>💺 Chọn ghế"]
+        A5["Payment<br/>💳 Thanh toán"]
+        A6["TicketView<br/>🎫 Vé điện tử"]
+        A7["AdminFrame<br/>👨‍💼 Quản trị"]
     end
     
-    subgraph "🌐 NETWORK LAYER"
-        B1[Socket Client<br/>📡 Port 12345]
-        B2[ObjectOutputStream<br/>➡️ Gửi request]
-        B3[ObjectInputStream<br/>⬅️ Nhận response]
+    subgraph NETWORK["🌐 NETWORK LAYER"]
+        B1["Socket Client<br/>📡 Port 12345"]
+        B2["ObjectOutputStream<br/>➡️ Gửi request"]
+        B3["ObjectInputStream<br/>⬅️ Nhận response"]
     end
     
-    subgraph "🖥️ SERVER LAYER"
-        C1[ServerSocket<br/>🔌 Lắng nghe]
-        C2[ClientHandler<br/>🔄 Thread Pool]
-        C3[AuthService<br/>🔐 Xác thực]
-        C4[BookingService<br/>🎟️ Đặt vé]
-        C5[MovieService<br/>🎥 Quản lý phim]
-        C6[PromoService<br/>🎁 Khuyến mãi]
+    subgraph SERVER["🖥️ SERVER LAYER"]
+        C1["ServerSocket<br/>🔌 Lắng nghe"]
+        C2["ClientHandler<br/>🔄 Thread Pool"]
+        C3["AuthService<br/>🔐 Xác thực"]
+        C4["BookingService<br/>🎟️ Đặt vé"]
+        C5["MovieService<br/>🎥 Quản lý phim"]
+        C6["PromoService<br/>🎁 Khuyến mãi"]
     end
     
-    subgraph "💾 DATA LAYER"
-        D1[Connection Pool<br/>⚡ HikariCP]
-        D2[JDBC Driver<br/>🔗 MySQL Connector]
+    subgraph DATA["💾 DATA LAYER"]
+        D1["Connection Pool<br/>⚡ HikariCP"]
+        D2["JDBC Driver<br/>🔗 MySQL Connector"]
     end
     
-    subgraph "🗄️ DATABASE"
-        E1[(Users)]
-        E2[(Movies)]
-        E3[(Shows)]
-        E4[(Bookings)]
-        E5[(Combos)]
-        E6[(Promotions)]
+    subgraph DB["🗄️ DATABASE"]
+        E1[("Users")]
+        E2[("Movies")]
+        E3[("Shows")]
+        E4[("Bookings")]
+        E5[("Combos")]
+        E6[("Promotions")]
     end
     
     A1 & A2 & A3 & A4 & A5 & A6 & A7 --> B1
@@ -201,24 +202,35 @@ graph TB
     D1 --> D2
     D2 --> E1 & E2 & E3 & E4 & E5 & E6
     
-    style A1 fill:#E3F2FD,stroke:#1976D2
-    style A2 fill:#E3F2FD,stroke:#1976D2
-    style A3 fill:#E3F2FD,stroke:#1976D2
-    style A4 fill:#E3F2FD,stroke:#1976D2
-    style A5 fill:#E3F2FD,stroke:#1976D2
-    style A6 fill:#E3F2FD,stroke:#1976D2
-    style A7 fill:#FFE0B2,stroke:#F57C00
-    style C2 fill:#C8E6C9,stroke:#388E3C
-    style C3 fill:#C8E6C9,stroke:#388E3C
-    style C4 fill:#C8E6C9,stroke:#388E3C
-    style C5 fill:#C8E6C9,stroke:#388E3C
-    style C6 fill:#C8E6C9,stroke:#388E3C
-    style E1 fill:#FFCDD2,stroke:#C62828
-    style E2 fill:#FFCDD2,stroke:#C62828
-    style E3 fill:#FFCDD2,stroke:#C62828
-    style E4 fill:#FFCDD2,stroke:#C62828
-    style E5 fill:#FFCDD2,stroke:#C62828
-    style E6 fill:#FFCDD2,stroke:#C62828
+    style A1 fill:#2d3748,stroke:#4299e1,stroke-width:2px,color:#e2e8f0
+    style A2 fill:#2d3748,stroke:#4299e1,stroke-width:2px,color:#e2e8f0
+    style A3 fill:#2d3748,stroke:#4299e1,stroke-width:2px,color:#e2e8f0
+    style A4 fill:#2d3748,stroke:#4299e1,stroke-width:2px,color:#e2e8f0
+    style A5 fill:#2d3748,stroke:#4299e1,stroke-width:2px,color:#e2e8f0
+    style A6 fill:#2d3748,stroke:#4299e1,stroke-width:2px,color:#e2e8f0
+    style A7 fill:#2d3748,stroke:#ed8936,stroke-width:2px,color:#e2e8f0
+    style B1 fill:#2d3748,stroke:#9f7aea,stroke-width:2px,color:#e2e8f0
+    style B2 fill:#2d3748,stroke:#9f7aea,stroke-width:2px,color:#e2e8f0
+    style B3 fill:#2d3748,stroke:#9f7aea,stroke-width:2px,color:#e2e8f0
+    style C1 fill:#2d3748,stroke:#48bb78,stroke-width:2px,color:#e2e8f0
+    style C2 fill:#2d3748,stroke:#48bb78,stroke-width:2px,color:#e2e8f0
+    style C3 fill:#2d3748,stroke:#48bb78,stroke-width:2px,color:#e2e8f0
+    style C4 fill:#2d3748,stroke:#48bb78,stroke-width:2px,color:#e2e8f0
+    style C5 fill:#2d3748,stroke:#48bb78,stroke-width:2px,color:#e2e8f0
+    style C6 fill:#2d3748,stroke:#48bb78,stroke-width:2px,color:#e2e8f0
+    style D1 fill:#2d3748,stroke:#ecc94b,stroke-width:2px,color:#e2e8f0
+    style D2 fill:#2d3748,stroke:#ecc94b,stroke-width:2px,color:#e2e8f0
+    style E1 fill:#2d3748,stroke:#f56565,stroke-width:2px,color:#e2e8f0
+    style E2 fill:#2d3748,stroke:#f56565,stroke-width:2px,color:#e2e8f0
+    style E3 fill:#2d3748,stroke:#f56565,stroke-width:2px,color:#e2e8f0
+    style E4 fill:#2d3748,stroke:#f56565,stroke-width:2px,color:#e2e8f0
+    style E5 fill:#2d3748,stroke:#f56565,stroke-width:2px,color:#e2e8f0
+    style E6 fill:#2d3748,stroke:#f56565,stroke-width:2px,color:#e2e8f0
+    style CLIENT fill:#1a202c,stroke:#4299e1,stroke-width:2px,color:#e2e8f0
+    style NETWORK fill:#1a202c,stroke:#9f7aea,stroke-width:2px,color:#e2e8f0
+    style SERVER fill:#1a202c,stroke:#48bb78,stroke-width:2px,color:#e2e8f0
+    style DATA fill:#1a202c,stroke:#ecc94b,stroke-width:2px,color:#e2e8f0
+    style DB fill:#1a202c,stroke:#f56565,stroke-width:2px,color:#e2e8f0
 ```
 
 > **💡 Lưu ý:** Sơ đồ Mermaid sẽ được render tự động trên GitHub, GitLab, và các nền tảng hỗ trợ Markdown. Nếu xem trên editor không hỗ trợ, vui lòng xem trên GitHub repository.
